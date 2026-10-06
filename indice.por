@@ -15,7 +15,7 @@ programa {
        * Inteiro = tipo responsável por vonter números inteiros, sem decimal, exemplo: idade = 18.
        * Real = tipo responsável por conter números com casas decimais, exemplo: 5.99.
        * Caractere = tipo responsável por conter apenas um caractere, exemplo: sexo = 'M'.
-       * Cadeia = tipo responsável por conter texto, exemplo: nome =  "Dafne".
+       * Cadeia = tipo responsável por conter texto, exemplo: nome =  "João".
        * Logico = tipo responsável por conter valores lógicos, exemplo: cadastro = falso.
        * Vazio = tipo responsável para executar funções que não retornam valor, exemplo: função escreva.
        */
@@ -23,6 +23,7 @@ programa {
       cadeia nome_meu_pokemon = "Pikachu"
       inteiro hp_meu_pokemon = 100
       inteiro max_hp_meu_pokemon = 100
+      inteiro pocoes = 2
 
       //Informações do pokémon inimigo.
       cadeia nome_pokemon_inimigo = "Gengar"
@@ -42,7 +43,7 @@ programa {
 
       //ENTRADA: O jogo aguarda que o jogador confirme antes de iniciar.
       cadeia continuar
-      escreva("Pressione ENTER para atacar...")
+      escreva("\nPressione ENTER para atacar...")
       leia(continuar)                         
       /*
       * Operadores arítmetricos
@@ -73,8 +74,26 @@ programa {
         hp_pokemon_inimigo = 0
       }
 
-      escreva(" >> ", nome_meu_pokemon, "causou ", dano, "de dano!\n")
-      escreva(" >> HP restante de ", nome_pokemon_inimigo, ": ", hp_pokemon_inimigo, "/", max_hp_pokemon_inimigo,"\n")
+      escreva(" >> ", nome_meu_pokemon, " causou ", dano, " de dano!\n")
+      /*
+      E - O operador lógico E só é verdadeiro se todas as condições forem verdadeiras
+      OU - Só é verdadeiro desde que pelo menos uma condição seja verdadeira
+      NÃO - Ele inverte o valor lógico se for verdadeiro, passa a ser falso e vice-versa.
+      */
+      logico vitoria = (hp_pokemon_inimigo == 0) e (hp_pokemon_inimigo <= max_hp_meu_pokemon)
+      // Estrutura condicional simples aceita as função de SE e SENÃO
+      se(vitoria) {
+        desenhar_cena(
+        nome_meu_pokemon,
+        hp_meu_pokemon,
+        max_hp_meu_pokemon,
+        nome_pokemon_inimigo,
+        hp_pokemon_inimigo,
+        max_hp_pokemon_inimigo,
+        nome_meu_pokemon + " desmaiou! Você venceu!"
+      )
+    } senao {
+      logico posso_continuar = (hp_pokemon_inimigo > 0) ou (pocoes > 0)
       desenhar_cena(
         nome_meu_pokemon,
         hp_meu_pokemon,
@@ -84,6 +103,10 @@ programa {
         max_hp_pokemon_inimigo,
         nome_meu_pokemon + " causou " + dano + " de dano!"
       )
+      escreva(">> ", nome_pokemon_inimigo, " ainda resiste com ", hp_pokemon_inimigo, " HP. Posso continuar?", posso_continuar)
+
+    }
+      
 
     }
 
@@ -131,7 +154,7 @@ programa {
       graficos.desenhar_retangulo(450, 310,300,75, falso, verdadeiro)
       graficos.definir_cor(graficos.COR_PRETO)
       graficos.desenhar_retangulo(450, 310,300,75, falso, falso)
-      graficos.desenhar_texto(60, 55, i_hp + " HP: " + i_hp + "/" + i_max_hap)
+      graficos.desenhar_texto(60, 55, i_nome + " HP: " + i_hp + "/" + i_max_hap)
       graficos.desenhar_texto(480, 372, p_nome + " HP: " + p_hp + "/" +p_max_hp)
 
       graficos.definir_cor(graficos.criar_cor(250,250,235))
@@ -143,7 +166,7 @@ programa {
      //Esta funçaõ é responsável por mostrar a tela de jogo
       graficos.renderizar()
 
-      escreva("Janela gráfica! Utilizando a biblioteca de gráficos do Portugol.")
+      escreva("\nJanela gráfica! Utilizando a biblioteca de gráficos do Portugol.")
 
       //A função aguarde irá executar a janela por 5 segundos.
       util.aguarde(5000)
